@@ -130,7 +130,58 @@
 
 3. 팀 프로젝트에서 다른 팀원이 이상한 상태로 package-lock.json을 업데이트했을 때
     - 팀원 중 누군가가 로컬에서 이상한 상태로 package-lock.json을 변경했다면 파일을 삭제 하고 다시 설치하는 것이 더 깨끗할 수도 있습니다.
+
     - 문제가 없다면 package-lock.json을 유지하는 것이 좋지만, 의존성 충돌이나 패키지 문제 로 인해 에러가 발생한다면 삭제 후 재설치 하는 것이 좋습니다.  
+
+
+### 개요
+- React는 component 단위로 개발하여 레고를 조립하듯이 앱을 완성합니다.
+
+- component는 작은 기능을 실행할 수 있는 하나의 모듈입니다.
+
+- 공식 사이트의 홈에는 component가 어떻게 사용되는지 설명하고 있습니다.
+
+- React가 compontent를 이용하여 어떻게 사용자 인터페이스를 구성하는지 살펴보도록 하겠습니다.
+
+- 이해를 돕기 위해 React 코드가 나오지만 코드 자체를 이해할 필요는 없습니다.
+
+- React component가 페이지로 변해가는 과정에 집중해 주세요.  
+
+- React 사이트에 접속하여 예제 코드를 확인하세요.
+
+- 사이트에서 자체 한글을 지원합니다.  "자동 번역 사용 금지"  
+
+- 왼쪽 코드에 마우스를 hover하면, 오른쪽 출력에 어느 부분인지 확인할 수 있습니다.
+
+- component의 조립과정에만 집중해주세요.
+
+### Component를 사용한 유저 인터페이스 생성
+
+- React를 사용하면 component라고 하는 개별 조각으로 사용자 인터페이스를 구축할 수 있습니다.
+
+- Video, Thumbnail 및 LikeButton이라는 react component를 생성하고, 이 component를 결합하여  화면과 페이지 그리고 앱 전체를 구성합니다.
+
+- 첫 번째 예제는 Video.js라는 함수형 component입니다.
+
+- component의 이름은 파일 이름과 동일하게 하며, 영문 대문자로 시작합니다. PascalCase
+
+- Video component는 Thumbnail과 LikeButton이라는 두 개의 component를 포함하고 있습니다.
+
+- React는 개인, 팀, 조직에서 작성한 component를 원활하게 결합할 수 있도록 설계되었습니다.
+
+### 3. Component를 작성하는 JavaScript Markup
+
+- React component는 JavaScript 함수입니다.
+
+- 조건에 따라 화면을 다르게 표시하고 싶다면 if문을 사용하면 됩니다.
+
+- 목록을 표시하고 싶다면 map()함수를 이용하면 됩니다.
+
+- 결국 React를 배우는 것은 프로그래밍을 배우는 것과 같습니다.
+
+- JavaScript를 이미 알고 있다면 더 쉽게 배울 수 있습니다.
+
+
 
 
 ## 3월 13일 2주차
