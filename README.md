@@ -1,6 +1,425 @@
 # 허동민 학번: 202130435
-## 3월 20일 3주차
 
+## 3월 27일 4주차
+
+### 리액트 시작
+
+### 1. 개요
+- 이번 장을 통해서 React 개념의 80%를 학습하게 됩니다.
+- React 개발의 흐름을 이해 하면서 전체 개념을 한 번에 정리합니다.
+
+- [학습 내용]
+- component 생성 및 중첩 방법
+- 마크업과 스타일을 추가하는 방법
+- 데이터를 표시하는 방법
+- 조건부 렌더링과 목록 렌더링 방법
+- 이벤트에 응답하고 화면을 업데이트하는 방법
+- component 간에 데이터를 공유하는 방법
+▲ 공식 사이트의 "학습 하기 (Learn)"을 참고하세요.  
+
+
+### 2. Component의 생성 및 nesting(중첩)
+- 2장에서 살펴본 것과 같이 React 앱은 component로 만들어집니다.
+- component는 고유한 로직과 모양을 가진 UI의 일부입니다.
+- component는 버튼처럼 작을 수도 있고, 전체 페이지처럼 클 수도 있습니다.
+- component는 마크업을 반환(return)하는 JavaScript 함수입니다.
+
+- Nesting은 CSS 선택자의 중첩 구조를 생각하면 쉽게 이해할 수 있습니다.
+    - CSS 중첩 구조는 2023년 부터 자체 지원합니다. 이전에는 Sass나 Lass 등을 이용할 때 사용했습니다.
+    ![Image](https://github.com/user-attachments/assets/235967d5-1e10-4a66-b7ba-b225542d4a6f)
+
+[실습]
+- MyApp이라는 함수형 component를 만들어 보겠습니다.
+- 먼저 무엇부터 해야 할지 생각해 보세요.
+    1. 어떤 디렉토리에 파일을 만들지?
+    2. 파일 이름은 뭐라고 할지?
+    3. 함수는 어떻게 구성할지?
+
+- 생각이 끝났으면 직접 만들어 봅니다.
+    1. 우리가 사용할 component는 src/ 아래 만들어야 합니다.
+    2. 이번에는 MyApp을 만들지 않고 기존의 App.js를 이용하도록 합니다. 3. App.js에 MyButton component를 만들고 중첩해 보도록 하겠습니다.
+
+
+* 먼저 프로젝트를 실행하여 잘 동작하는지 확인 합니다. $ npm start
+* Appjs의 내용을 모두 삭제하고 이곳에 코딩합니다.
+* 다음과 같이 코드를 작성하고, 정상적으로 실행되는지 확인합니다.
+```
+function App() {
+    return (
+        <div>
+            <h1>Welcome to my app</h1>
+        </div>
+    );
+}
+
+export default App 
+```
+
+
+* App component 위에 MyButton component를 작성합니다.
+* 실행 화면을 확인해 봅니다.
+* MyButton을 아직 중첩하지 않았기 때문에 아직 화면에는 변화가 없습니다.
+* App component안에서 <MyButton>을 호출해서 중첩해 줍니다.
+* 이제 화면에서 버튼을 확인할 수 있습니다.
+```
+function MyButton() {
+  return (
+    <button>I'm My button component</button>
+  )
+}
+```
+
+
+* 완성된 App component는 다음과 같습니다.
+```
+function MyButton() {
+  return (
+    <button>I'm My button component</button>
+  )
+}
+export default function App() {
+  return ( 
+    <div>
+    <h1>Hello React</h1>
+    <MyButton />
+    </div>
+  )
+};
+
+export default App 
+```
+
+
+
+* export default 선언의 위치는 어디가 좋을까요?
+* VS Code에서 자동 완성을 하면 위와 같이 맨 아래 선언되는 것을 확인할 수 있습니다.
+* 하지만 공식 문서처럼 main component의 function 키워드 왼쪽에 선언하는 것이 좋습니다.
+* 특히 한 파일에 여러 개의 component가 있을 경우라면 이렇게 하는 것이 가독성에 유리합니다.
+
+import MyB from "./MyButton"
+
+export default function App() {
+  return (
+    <div>
+      <h1>Hello React</h1>
+      <MyB />
+    </div>>
+  )
+}
+
+
+* export default 키워드는 파일내의 component중 기본 component를 지정합니다.
+* 이 키워드의 사용도 JavaScript 문법입니다.
+* 좀더 구체적으로 알고 싶다면 사이트의 MDN 혹은 javascript.info 링크를 확인하세요.
+
+- [export default export의 차이]
+* Named Exports (export)
+    * 하나의 파일안에 여러 개의 component가 있을 때 사용합니다.
+    * component를 사용하는 쪽에서는 component 정확한 이름을 반드시 명시해야 합니다.
+    * (Ex) import { add, subtract, multiply, divide ) from/math'
+* Default Exports (export default)
+    * 하나의 파일안에서 하나의 component만 내보내는 경우 사용합니다.
+    * component를 사용하는 쪽에서는 어떤 이름을 사용해도 상관 없습니다. 
+    * (Ex) import calc from './calculator'
+
+
+2. Component의 생성 및 nesting(중첩)
+- 예제 코드에서 MyButton component만 분리 합니다.
+- 어떤 과정을 거쳐야 하는지 생각 하면서, 예제 코드와 같은 결과가 나오도록 수정합니다.
+
+- Default Exports이기 때문에 import할 때는 어떤 이름을 사용해도 상관없습니다.
+- 다만 convention을 달리할 경우 가독성이 떨어지기 때문에 대문자로 시작하는 것이 좋습니 다.
+- 테스트를 끝내고 원래대로 복원해 주세요.
+
+
+2. Component의 생성 및 nesting(중첩)
+- 다음은 ButtonLib라는 component를 새로 만듭니다.
+- 내용은 Named Exports의 button component 3개 만듭니다.
+- ButtonLib에 선언한 component를 2개만 App으로 중첩해 봅니다.
+
+App.js
+```
+function Button1() {
+    return (
+        <button>Button1</button>
+    )
+}
+
+function Button2() {
+    return (
+        <button>Button2</button>
+    )
+}
+function Button3() {
+    return (
+        <button>Button3</button>
+    )
+}
+
+export { Button1, Button2, Button3}
+```
+
+Buttonlib.js
+```
+function Button1() {
+    return (
+        <button>Button1</button>
+    )
+}
+
+function Button2() {
+    return (
+        <button>Button2</button>
+    )
+}
+function Button3() {
+    return (
+        <button>Button3</button>
+    )
+}
+
+export { Button1, Button2, Button3}
+```
+
+codesandbox 참고
+
+
+### 3. JSX로 마크업 작성하기
+- 앞에서 작성한 코드의 마크업 문법을 JSX라고 합니다.
+- 반드시 사용해야 하는 것은 아니지만, React 프로젝트에서는 편의성을 위해 JSX를 사용합
+니다.
+- JSX는 HTML보다 더욱 엄격한 문법을 적용합니다.
+- JSX에서는 <br/>같이 싱글 태그라도 태그를 닫아야 합니다.
+- React 에서는 여러 개의 component를 JSX 태그로 반환할 수 있습니다.
+- 다만 여러 개의 component를 <div>..</div> 또는 빈 <>...</> wrapping해 줘야 합니다.
+
+- AboutPage component를 작성합니다.
+- 이 component를 화면에서 확인하려면 어떻게 해야 할까요?
+    - App.js에서 불러오면 되겠죠!
+    - 수정하고 출력을 확인해 보세요.
+
+AboutPage
+```
+    export default function AboutPage() {
+    return (
+        <>
+          <h1>About Page</h1>
+          <p>Hello!!!</p>
+        </>
+    )
+}
+```
+
+리액트 사용할 때는
+```
+export default {
+    return (
+        <>
+    )
+}
+```
+export default {
+    return (
+        <>
+    )
+}
+필수 !! 특히 <> wrapping 추가
+
+
+### 4. 스타일 추가하기
+- React에서는 className으로 CSS 클래스를 지정합니다. 
+- className은 HTML의 class 속성과 동일한 방식으로 동작합니다.
+- CSS 규칙은 별도의 CSS 파일에 작성합니다. 그런데 React는 CSS 파일을 추가하는 방법을
+규정하지는 않습니다.
+    - 정적 페이지를 작성할 때와 동일한 방법을 지원합니다.
+- 가장 간단한 방법은 HTML에 <link> 태그를 추가하는 것입니다.
+    - 그러나 link를 추가하면 정적 페이지를 수정해야 하기 때문에 추천하지 않습니다.
+    - React 사용할 수 있는 여러가지 방법은 뒤에서 알아보도록 하겠습니다.
+- 만일 빌드 도구나 프레임워크를 사용한다면 해당 문서를 참고하여 프로젝트에 CSS 파일을
+추가합니다.
+
+- 다음 절에서 데이터를 표시한 후에 스타일을 적용하는 방법을 알아 보겠습니다.
+
+
+
+### 5. 데이터 표시하기
+- JSX를 사용하면 자바스크립트에 마크업을 넣을 수 있습니다.
+    - 반대 아닌가? JS안의 마크업 안에 JS를 넣는 다는 것이 더 정확합니다.
+- JSX 코드 내에서 JavaScript로 "탈출하여 변수나 표현식을 사용하는 것입니다.
+- 이 방법을 "Escape Back"이라고 합니다.
+- {}중괄호를 사용해서 변수나 표현식을 사용자에게 표시하도록 하는 것입니다.
+
+```return(
+<h1>
+{user.name} // 자바스크립트로 이스케이프
+</h1>
+)
+```
+```
+return (
+<img
+className="avatar"
+src=[user.imageUrl]
+/>
+);
+```
+
+- src 속성에 user.imageUrl 변수의 값을 전달하여 이미지의 경로를 설정하고 있습니다.
+- 반면에 className="avatar"는 단순히 문자열을 전달하는 경우에는 중괄호 대신 큰 따옴표 를 사용합니다.
+
+
+
+- 예제에는 App.js에 Profile component를 작성했지만, 별도의 component로 만들어 보겠습
+니다.
+- Profile component가 완성되면 App.js에서 호출하고, 출력을 확인 합니다.
+- 예제에서 style={{ }}은 특별한 문법이 아니라, style={ }의 JSX 중괄호 안에 user 객체를 로 표시한 것입니다.
+
+```
+const user = {
+    name: 'Hedy Lamarr',
+    imageUrl: 'https://i.imgur.com/yXOvdOSs.jpg',
+    imageSize: 90,
+  };
+  
+  export default function Profile() {
+    return (
+      <>
+        <h1>{user.name}</h1>
+        <img
+          className="avatar"
+          src={user.imageUrl}
+          alt={'Photo of ' + user.name}
+          style={{
+            width: user.imageSize,
+            height: user.imageSize
+          }}
+        />
+      </>
+    );
+  }
+  
+```
+
+
+- 그런데 출력된 결과를 보면 스타일지 적용되어 있지 않은 것을 확인할 수 있습니다.
+- 당연한 일이지만 아직 스타일을 선언하지 않았기 때문입니다.
+- "스타일 추가하기"에서 작성한 avatar class를 Profile.css라는 파일을 만들어 선언해 보세
+요.
+```
+.avatar {
+    border-radius: 50%;
+}
+
+```
+
+- 다음으로 Profile component에 적용해 보도록 하겠습니다.
+- 적용 방법은 간단합니다. import 키워드를 이용해서 파일 경로를 작성하면 됩니다.
+```
+import './Profile.css'
+
+const user = {
+    name: 'Hedy Lamarr',
+    imageUrl: 'https://i.imgur.com/yXOvdOSs.jpg',
+    imageSize: 90,
+  };
+  
+
+.
+.
+.
+  
+```
+
+
+- 이제 아바타의 사진이 동그란 모습으로 스타일링 된 것을 확인할 수 있습니다.
+이 화면이 지금까지 우리가 작성한 코드의 결과물 입니다.
+
+
+- 결과물이 화면 왼쪽에 있어서 보기가 불편하면 어떻게 해야 할까요?
+- 만일 모든 데이터를 중앙으로 정렬하려면 어떻게 해야 할까요? Welcome to my app
+- App.js에 스타일을 적용하면 됩니다.
+- App.css도 이미 만들어져 있으니 이곳에 스타일을 추가 해서 적용해 보세요.
+
+완성된 파일
+```
+import MyB from "./MyButton"
+import { Button1, Button3 }  from "./ButtonLib"
+import AP from "./AboutPage"
+import Profile from "./Profile"
+import './App.css'
+
+function MyButton() {
+  return (
+    <button>I'm a button</button>
+  )
+}
+
+export default function App() {
+  return (
+    <div className="wrapper">
+      <h1>Hello React</h1>
+      <MyB /><br />
+      <Button1 />&nbsp;
+      <Button3 />
+      <AP />
+      <Profile />
+    </div>
+  )
+}
+
+```
+
+6. 조건부 렌더링
+- React에서 조건문을 작성하는 데에는 특별한 문법이 필요 없습니다.
+- 일반적인 자바스크립트 코드를 작성할 때 사용하는 것과 동일한 방법을 사용합니다.
+![Image](https://github.com/user-attachments/assets/b0ea5b53-c694-4bb3-a227-92d08f4428d2)
+
+
+### 7. 리스트 렌더링하기
+- 컴포넌트 리스트를 렌더링하기 위해서는 for 문 및 map() 함수와 같은 자바스크립트 기능 을 사용합니다.
+- <li>에 key 속성 (attribute)이 있는 것을 주목하세요.
+- 목록을 사용할 때는 각 항목에 대해 고유하게 식별하는 문자열 또는 숫자를 전달해야 합니
+다.
+- 항목을 삽입, 삭제 또는 재정렬할 때 어떤 일이 일어났는지 알기 위해 key를 사용합니다.
+- 이것을 key props라고 하는데, 자세한 내용은 props를 학습할때 다시 소개합니다.
+니다.
+![Image](https://github.com/user-attachments/assets/835b6b2b-3ad7-4d24-b2dd-d82e39aa68d5)
+
+니콜라스 메모 
+
+
+
+- 예제를 참고해서 ShoppingList component를 작성해 보세요.
+- 그리고 App.js에 ShoppingList를 추가하고 출력을 확인해 보세요.
+- 앞으로 실습을 할 때는 예제에 App.js라고 나와 있어도 코드의 component이름으로 파일을 만들어서 사용하고, App.js에서 component를 불러와서 출력하도록 하겠습니다.
+```
+const products = [
+    { title: 'Cabbage', isFruit: false, id: 1 },
+    { title: 'Garlic', isFruit: false, id: 2 },
+    { title: 'Apple', isFruit: true, id: 3 },
+  ];
+  
+  export default function ShoppingList() {
+    const listItems = products.map(product =>
+      <li
+        key={product.id}
+        style={{
+          color: product.isFruit ? 'magenta' : 'darkgreen'
+        }}
+      >
+        {product.title}
+      </li>
+    );
+  
+    return (
+      <ul>{listItems}</ul>
+    );
+  }
+  ```
+- 출력이 오른쪽 화면처럼 나오면 성공입니다!
+
+
+## 3월 20일 3주차
 
 ### 이어서
 * node_modules/
