@@ -1,10 +1,10 @@
-import MyB from "./MyButton"
-
-export default function App() {
-  return (
-    <div>
-      <h1>Hello React</h1>
-      <MyB />
-    </div>
+export default function MyButton() { 
+  function handleClick() { 
+    alert('You clicked me!');
+}
+return (
+    <button onClick={handleClick}>
+      I'm a button
+    </button>
   )
 }

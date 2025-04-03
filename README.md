@@ -1,10 +1,447 @@
 # 허동민 학번: 202130435
 
+## 4월 3일 5주차
+
+### 8. 이벤트에 응답하기
+- component 내부에 event handler 함수를 선언하면 event에 응답할 수 있습니다.
+- onclick={handleClick}의 끝에 소괄호 ()가 없는 것을 주목하세요!
+- 함수를 호출하지 않고 전달만 하면 됩니다.
+- React는 사용자가 버튼을 클릭할 때 이벤트 핸들러를 호출 합니다.
+
+[실습]
+
+- 앞에서 실습한 MyButton component를 수정하고, 정상 출력되는지 확인해 봅니다.
+
+- MyButton component를 App.js에서 분리하지 않았다면 App.js에서 수정해도 됩니다.
+
+```
+export default function MyButton() { 
+  function handleClick() { 
+    alert('You clicked me!');
+}
+return (
+    <button onClick={handleClick}>
+      I'm a button
+    </button>
+  )
+}
+```
+
+
+### 9. 화면 업데이트하기
+- component가 특정 정보를 "기억해 두었다가 표시하기를 원하는 경우가 있습니다.
+- 예를 들어 버튼이 클릭된 횟수를 세고 싶을 수 있습니다.
+- 이렇게 하려면 component에 state를 추가하면 됩니다.
+- 먼저, React에서 useState를 import합니다. 
+![Image](https://github.com/user-attachments/assets/23e1c86b-740a-4492-9db7-e9d8baac608f)
+
+- 이 코드를 보면 useState는 react 파일 안에 Named Exports로 선언되어 있는 여러 개의 component 중 하나는 것을 알 수 있습니다.
+- 이제 component 내부에 state 변수를 선언할 수 있습니다.
+![Image](https://github.com/user-attachments/assets/6c032592-7aba-49d6-ba3d-99d521f49a90)
+
+
+ 9. 화면 업데이트하기
+- useState로부터 현재의 state를 저장할 수 있는 변수인 count와 이를 업데이트할 수 있 는 함수인 setCount를 얻을 수 있습니다.
+- 이름은 자유롭게 지정할 수 있지만 [something, setSomething]으로 작성하는 것이 일반 적입니다.
+- 즉, 변수 이름과 변수 이름 앞에 set을 붙인 업데이트 함수를 관용적으로 사용합니다.
+
+[실습]
+- 버튼이 처음 표시될 때는 useState()에 0을 전달했기 때문에 count가 0이 됩니다.
+
+- state를 변경하고 싶다면 setCount()를 실행하고 새 값을 전달하세요.
+
+- 이 버튼을 클릭하면 카운터가 증가합니다.
+
+```
+
+function Button() {
+  const [count, setCount] useState(0);
+  
+  function handleClick() {
+    setCount(count + 1);
+  }
+  return (
+    <button onClick=(handleClick)>
+      Clicked (count) times
+    </button>
+  );
+}
+```
+
+* 챕터하나 할때마다 커밋을 하면 git graph를 통해 merge되지 않고 
+branch된 로그를 확인할 수 있다 >> 어디서부터 잘못되었는지 쉽게 확인가능
+
+ 9. 화면 업데이트하기
+[실습]
+- 버튼이 처음 표시될 때는 useState()에 0을 전달해서 count가 0이 되도록 합니다.
+- state를 변경하고 싶다면 setCount()를 실행하고 새 값을 전달합니다.
+- 버튼에서 event handler를 호출하여 setCount()함수를 실행합니다.
+- 이제 버튼을 클릭하면 카운터가 증가합니다.
+
+- 문서의 코드는 component안에 2개의 버튼을 반환하도록 하였으나 불필요하게 복잡합니다.
+- 우리는 useState에 집중할 수 있게 버튼 하나만 반환하도록 수정 하겠습니다.
+
+- 이번 실습은 CountState라는 이름의 component를 만들어서 사용하겠습니다.
+- CountState.js 파일을 만들고 예제의 코드를 작성해 넣습니다.
+
+```
+import { useState } from 'react';
+
+export default function MyApp() {
+  const [count, setCount] = useState(0);
+
+  function handleClick() {
+    setCount(count + 1);
+  }
+
+  return (
+    <div>
+        <button onClick={handleClick}>
+            Clicked {count} times
+        </button>
+    </div>
+  );
+  
+}
+```
+
+
+9. 화면 업데이트하기
+- App.js에 CountState compont를 호출합니다.
+- 버튼은 반드시 2개 이상을 만들어야 합니다.
+- 출력이 정상으로 되는지 확인하고 버튼을 테스트 합니다.
+
+- 화면이 아래쪽으로 너무 길면 CSS를 수정해서 두 구역으로
+나눠 주세요.
+![Image](https://github.com/user-attachments/assets/f5b189e2-53a3-4846-afac-e4a9a837eea3)
+
+
+9. 화면 업데이트하기
+- 그런데 뭔가 이상하지 않나요?
+- 뭐가 이상한가요?
+- 각 버튼이 고유한 count state를 "기억"하고 다른 버튼에는 영향을 주지 않는 방식에 주목해 주세요.
+- 객체의 개념을 알고 있다면 당연한 현상이기는 합니다.
+      - ? 그렇다면 state를 공유할 수는 없는 걸까?
+      - ▲ state를 공유하는 방법에 관해서는 11절에서 알아 보도록 하겠습니다.
+
+
+
+#### 10. Hook 사용하기
+- use로 시작하는 함수를 Hook이라고 합니다.
+- useState는 React에서 제공하는 내장 Hook입니다.
+- 다른 내장 Hook은 API 참고서에서 찾아볼 수 있습니다.
+- 또한 기존의 것들을 조합하여 자신만의 Hook을 작성할 수도 있습니다. 사용자 Hook.
+- Hook은 다른 함수보다 더 제한적입니다.
+예를 들면 ...
+- component 또는 다른 Hook의 상단에서만 Hook을 호출할 수 있습니다.
+- 조건이나 반복문에서 useState를 사용하고 싶다면 새 컴포넌트를 추출하여 그곳에 넣으세요.
+
+- 지금 우리가 공부하고 있는 공식 사이트의 Quick Start에서는 이 정도의 설명만 나와 있습니다.
+
+#### Hooks의 사용 규칙(Rules of Hooks)
+Hook은 React의 렌더링 및 상태 관리 메커니즘과 밀접하게 연결되어 있으며, 아래와 같은 규칙을 따라야 합니다.
+
+1. 최상위에서만 호출해야 한다
+  - √ if, for, while 등의 블록 내부에서 Hooks를 호출하면 안 됩니다.
+  - √ 함수의 조건문 내부에서 호출하면 실행 순서가 달라질 수 있기 때문입니다.
+
+```
+
+// X 잘못된 예제
+function MyComponent() { 
+  if (someCondition) { 
+  useState(0); //X 조건문 내부에서 Hook 사용 불가
+  }
+}
+// V 올바른 예제
+function MyComponent() {
+  const [count, setCount] useState(e); // 08
+}
+```
+
+2. React 함수형 component 또는 사용자 Hook 내부에서만 사용 가능
+  - 일반적인 JavaScript 함수에서 usestate, useEffect 등의 Hook을 사용할 수 없습니다.
+```
+function notAComponent() {
+useState(0); //X 일반 함수에서 Hook 사용 불가
+}
+function MyComponent() { 
+const [count, setCount] useState(0); // React 함수 컴포넌트에서 사용 가능
+}
+```
+
+
+#### Hooks의 사용 규칙(Rules of Hooks)
+▲ 왜 이런 제한이 필요한가?
+  - React의 동작을 예측 가능하고, 안정성을 높이기 위해 필요한 규칙입니다.
+1. rendering 순서를 보장하기 위해
+  - 조건문이나 반복문 안에서 Hooks를 사용하면 매 rendering마다 Hook의 호출 순서가 달라질 수 있기 때문에 React가 상태를 제대로 추적할 수 없습니다.
+
+2. 불필요한 사이드 이펙트 방지
+  - component가 여러 번 rendering될 때마다 동일한 순서로 Hook이 실행되어야 React가 의도한 동작을 수행할 수 있습니다.
+
+
+#### 왜 function형 컴포넌트에서만 Hook을 사용할까?
+- Class형 component는 lifecycle 함수를 통해서 상태 관리를 했습니다.
+- 그런 이유 때문에 Class형 component는 유지보수가 어렵고 복잡해질 수 있었습니다.
+- React는 component의 상태 관리(lifecycle)와 로직을 더 간결하게 만들기 위해 Hooks를 도입 하게 됩니다.
+- 따라서 React 팀은 function형 component를 권장하고 있습니다.
+- Hook은 function형 component 전용으로 설계되었습니다.
+- ▲ 이런 이유 때문에 function형 component에서만 Hook을 사용하는 것입니다.
+
+
+#### function component vs class component
+- “왜 요즘은 function형 component를 주로 사용할까”라는 의문을 갖는 경우가 많습니다.
+- 왜냐하면 인터넷 등의 자료를 찾다 보면 class형 component를 많이 볼 수 있기 때문입니다.
+- React의 역사를 살펴보면 그 이유를 알 수 있습니다.
+
+1. React 초창기 (2013년 5월 29일 ~ 2014년)
+  - 함수형 컴포넌트는 존재했지만, 단순히 props를 받아 UI를 반환하는 역할만 가능했 습니다.
+  - 상태(state)나 생명주기(lifecycle) 기능이 없었음.
+    →그래서 주요 component는 주로 class component로 작성됨.
+2. React 16.8 (2019년 2월)→Hooks 도입
+  - useState, useEffect 등의 Hook이 추가되면서, 함수형 component에서도 상태 관리와 생명주기 기능을 구현할 수 있게 됨.
+  - 이후 React 공식 문서에서도 함수형 컴포넌트와 Hooks 사용을 권장하게 됨.
+
+
+#### function component vs class component
+3. React 17 (2020년 10월) 이후
+  - React 17은 주로 내부적인 개선이 많았고, function형 component와 Hooks 사용이 사실상 표준이 됨.
+4. React 18 (20223)
+  - 자동 배치(Automatic Batching) 등 function형 component에서 동작이 최적화됨.
+- .useTransition, useDeferredValue A Hook0| 7, class component에서 function component로의 전환이 더욱 가속화됨.
+
+
+#### 11. component 간 데이터 공유
+- 공식 문서에서는 MyButton과 MyApp을 계속 수정해 가면서 설명을 하고 있어서 이전 상 태를 확인하기가 어렵습니다.
+
+- 물론 변경이 있을 때마다 꼼꼼히 commit을 해두면 checkout을 통해서 확인이 가능합니다.
+- 다만 이 경우 checkout을 반복해야 하기 때문에 확인하는데 불편합니다.
+
+- ▲ 따라서 실습은 꼭 필요한 경우를 제외하고는 별도의 component를 만들어 사용 하겠습니다.
+
+
+
+#### 11. component 간 데이터 공유
+- 사이트에서는 MyButton 으로 설명하고 있지만, 우리는 CountState로 작성했던 것을 기억하고 사이트의 설명을 봐야 합니다.
+
+- 9절에서 “왜 변수는 count 하나인데 버튼 3개의 데이터가 모두 다른 state를 갖는 것일까?"라는 의문이 있었습니다.
+
+- 각각의 CountState component는 독립적인 count가 있는 것 처럼 동작했고, 각 버튼을 클릭하면 클릭한 버튼의 count만 변경되었습니다.
+
+- 그러나 이 것은 이상한 것이 아닙니다. 각 component 객체가 독립적으로 동작하기 때문 입니다.
+
+- component는 하나지만 count 변수도 개체로 여러 개 복사된 것이나 마찬가지이기 때문입니다.
+![Image](https://github.com/user-attachments/assets/3bfb884b-9403-49f4-8118-c4ce6d1d14f2)
+
+
+#### 11. component 간 데이터 공유
+- 하지만 데이터를 공유하고 항상 함께 업데이트하기 위한 component가 필요한 경우가 많습니다.
+- 두 개의 CountState2 component가 동일한 count를 표시하고 함께 업데이트하려면, state를 개별 버튼에서 모든 버튼이 포함된 가장 가까운 component 안으로 이동해야 합니다.
+- 여기서 이야기 하는 제일 가까운 component는 App component입니다.
+
+- 외부에서 두 개 호출하는것이 아니라, 내부에서 같은 count변수를 사용하는 것입니다.
+
+![Image](https://github.com/user-attachments/assets/82c42de5-cead-49b1-8911-ed73a4a79ebc)
+
+#### 11. component 간 데이터 공유
+- 두 버튼 중 하나를 클릭하면 App의 count가 변경되어, CountState2의 count가 모두 변 경되게 해 보도록 하겠습니다.
+- 어떤 것을 변경해야 하는지 먼저 살펴보고, 나중에 실습을 진행하도록 하겠습니다.
+- 먼저 App 안으로 useState를 이동하고, CountState2를 2개 이상 rendering합니다.
+
+![Image](https://github.com/user-attachments/assets/6bab778d-ab3d-4f6d-b612-3b94fa74fda5)
+
+#### 11. component 간 데이터 공유
+- 다음으로 공유된 click handler와 count를 각 CountState2로 전달합니다.
+- JSX 중괄호를 사용하여 CountState2에 정보를 전달할 수 있습니다.
+- 이렇게 component에 전달하는 정보를 props라고 합니다.
+
+- 이제 App component에는 count state와 handleClick(event handler)를 포함하고 있기 때문에 이 두 가지 정보를 각 버튼에 props로 전달할 수 있습니다.
+![Image](https://github.com/user-attachments/assets/27ba62e8-8821-457e-b6ab-867c1ad8ebcf)
+
+#### 11. component 간 데이터 공유
+- 마지막으로 parent component(main component)인 App에서 전달한 props를 읽을 수 있도 록 CountState2 component를 변경합니다. 
+
+- ● 동작하는 과정은 다음과 같습니다.
+  1. 버튼을 클릭하면 onClick 핸들러가 실행됩니다. 왜냐하면
+  각 버튼의 onclick prop는 App 내부의 handleClick 함수로 설정되어 있기 때문입니다.
+  2. 이 코드는 setCount(count + 1)를 실행해서 count state 변수를 증가시킵니다.
+  3. 새로운 count 값은 각 버튼에 prop로 전달되기 때문에 모든 버튼에는 새로운 값이 표 시됩니다.
+  4. 이것을 "state 끌어올리기(lifting state up)"라고 합니다.
+  5. state를 위로 이동함으로써 컴포넌트 간에 state를 공유하게 됩니다. 
+  - 여기서 "위로"라는 것은 parent component를 의미 합니다.
+
+#### 11. component 간 데이터 공유 (실습)
+- 라인 번호는 각자의 코드 상태에 따라서 달라질 수 있습니다.
+- App.js 내부에 CountState2 component를 다음과 같이 작성하고, App component 내부에 useState와 event handler를 작성합니다.
+- 마지막으로 App component에서 CountState2를 rendering합니다.
+- App component에서 CountState2를 호출할 때마다 count와 onclick을 props로 전달합니다.
+- 이렇게 하면 count변수는 App에 하나만 있기 때문에 여러 번 호출해도 값을 공유하게 됩니다. 
+```
+import { useState } from "react";
+import MyB from "./MyButton";
+import { Button1, Button3 } from "./ButtonLib";
+import AP from "./AboutPage";
+import Profile from "./Profile";
+import ShoppingList from "./ShoppingList";
+import CountState from "./CountState";
+
+import './App.css';
+
+function CountState2({ count, onClick }) {
+  return (
+    <div>
+      <button onClick={onClick}>
+        Clicked {count} times
+      </button>
+    </div>
+  );
+}
+
+
+export default function App() {
+  const [count, setCount] = useState(0);
+
+  function handleClick() {
+    setCount(count + 1);
+  }
+
+  return (
+    <div className="wrapper">
+      <h1>Welcome to my app</h1>
+      <div>
+        <p>default export example</p>
+        <MyB />
+        <p>named export example</p>
+        <Button1 />&nbsp;
+        <Button3 />
+        <p>wrapping example</p>
+        <AP />
+        <p>Displaying data</p>
+        <Profile />
+        <p>Rendering lists</p>
+        <ShoppingList />
+      </div>
+      <div>
+        <p>Updating the screen</p>
+        <CountState />
+        <CountState />
+        <CountState />
+      </div>
+      <div>
+        <p>Sharing data between components</p>
+        <CountState2 count={count} onClick={handleClick} />
+        <CountState2 count={count} onClick={handleClick} />
+      </div>
+    </div>
+  );
+}
+```
+
+### Tic-Tac-Toe 게임 만들기
+
+#### 들어가기 전에
+- 공식 문서의 Quick Start의 두번째 파트인 Tutorial:Tic-Tac-Toe입니다.
+
+- 이 Tutorial에서 배우게 될 기술은 모든 React 앱을 만드는데 기본이 되는 기술입니다.
+
+- 이 기술을 완전히 이해하면 React에 대해 깊게 이해할 수 있습니다.
+
+- 앞에서 Quick Start를 통해서 React의 전반적인 (80% 정도) 기술에 대해 간단이 알아 봤습니다.
+
+- 이 Tutorial은 빨리 무엇인가를 완성해 보고 싶은 학습자를 위한 것입니다.
+
+- 문서에서는 각 단계별로 학습하고 싶다면 LEARN REACT의 "UI 표현하기"부터 시작하라고 합니다.
+
+- 직접 무엇인가 직접 만들어 보면서 학습해 나가는 것을 선호하는 학습자를 위해 Tutorial을 설계했다고 합니다.
+
+- 우리가 Quick Start에서 학습한 내용을 포함해서 React의 전반적인 기술이 실제로 어떻게 사용되는지 확인할 수 있다.
+
+
+### Tutorial에서 학습할 내용
+- Tutorial은 크게 다음과 같은 4개의 카테고리로 구성되어 있습니다.
+
+1. Tutorial 환경 설정: Tutorial을 따라 학습할 수 있는 개발환경에 대한 설명입니다.
+2. 개요: React의 핵심인 components, props, state에 대하여 학습할 수 있습니다. 
+3. 게임 완료하기: React 개발에서 가장 많이 사용되는 기술을 학습할 수 있습니다. 
+4. 시간여행 추가하기: React 만의 강점에 대해 더 깊은 통찰력을 얻을 수 있습니다.
+
+- 통찰력(洞察力)이란 “사물이나 현상을 환히 꿰뚫어 보는 능력"을 의미 합니다.  
+  즉, React가 가지고 있는 React만의 장점을 이해할 수 있다는 의미입니다.  
+  Tutorial에서 설명하고 있지 않은 React의 사상을 느낄 수 있다는 의미 이기도 합니다.
+
+### 무엇을 만드는 것일까요?
+- React로 상호작용하는 틱택토 게임을 만들게 됩니다.
+- 완성하면 어떤 모습인지 문서의 첫 번째 코드를 직접 실행해 보면서 확인합니다.
+- 틱택토 게임은 두 사람이 번갈아 빈칸에 말을 놓아 3개의 말을 한 줄로 완성하면 승리
+합니다.
+- 주의 깊게 봐야 할 것은 화면 오른쪽의 번호가 있는 목록입니다.
+- 이 목록은 게임에서 발생한 모든 움직임의 기록을 제공하며 게임이 진행됨에 따라 업데이트됩니다.
+
+![Image](https://github.com/user-attachments/assets/b4ecbf23-0fae-480c-9c6d-dd5136eb5670)
+
+
+#### Tutorial 환경설정
+- 문서에서는 CodeSandBox를 사용해서 학습을 진행한다고 합니다.
+
+- 그러나 우리는 이미 CRA로 프로젝트를 생성하는 방법을 알고 있기 때문에 Local에 프로젝트를 생성하고 학습을 진행 합니다.
+
+- 만일 현재 사용하고 있는 프로젝트를 생성하고 바로 commit을 했다면, switch 명령으로 처음 commit으로 이동한 후 새로운 branch를 만들어 진행하면 됩니다.
+
+- 문서에서 “중요합니다!"를 통해서 Local환경 구축에 대한 설명을 하고 있습니다. 
+
+- 코드는 CodeSandBox의 Download Sandbox에서 다운로드를 받아 사용하라고 합니다. 그러나 효과적인 학습을 위해 코딩은 직접하세요.
+
+- 다만 CSS는 우리의 범위가 아니기 때문에 다운로드 받거나 복사해서 사용하세요.
+
+- ▲ 윈도우 기본 압축 프로그램으로는 압축을 풀 수 없습니다. 다른 프로그램을 사용해 주세요.
+
+
+#### 초기 코드 살펴보기
+- 프로젝트를 새로 생성하거나, 초기 commit으로 switch해서 새 branch를 만듭니다.
+
+- src/에 있는 파일 중 불필요한 파일을 삭제 합니다. 반드시 삭제해야 하는 것은 아닙니다.
+
+- 파일 중에서 reportWebVitals.js 파일은 프로젝트의 성능을 분석하는 Web Vitals(웹 핵심 성능 지표)를 수집하기 위한 파일로 삭제를 하면 오류가 발생합니다.
+
+- 만일 삭제하고 싶다면 index.js의 해당 라인도 삭제해야 합니다.
+
+- Web Vitals는 Google Analytics로 기본 성능 분석, Sentrv로 오류 추적, InnRocket은 사용자 경험 분석 등에 사용됩니다.
+
+- 보통은 GA + Sentry의 조합으로 많이 사용합니다.
+
+- 다음은 삭제 파일입니다.
+
+#### 초기 코드 살펴보기
+- App의 내용을 component의 기본 틀만 남기고 모두 삭제합니다.
+
+- CodeSandBox로 이동해서 style.css파일 내용을 복사해서 App.css로 붙여넣기 합니다.
+
+- 출력 결과 버튼의 위치가 좌측 상단에 붙어 있다면 index.css의 body margin을 조금 늘려주면 됩니다.
+
+[App.js 설명]
+- App component는 default export로 선언 합니다. • button에 스타일을 적용해서 모양을 잡아줍니다.
+- button이 9개 필요하기 때문에 App에 작성하는 것 보다는 별개의 component를 만드는 것이 좋습니다.
+- Square component를 만들어 App component에서 호출합니다.
+
+#### 보드 만들기
+- Square component에는 사각형이 하나뿐이지만 게임을 진행하려면 9개가 필요합니다.
+- 9개의 버튼을 복사해 넣으면 다음과 같은 오류가 발생합니다.
+- fragment Tag나 division Tag를 사용해서 wrapping해 주면 됩니다.
+- button을 바로 나열하면 다음과 같이 block 형태로 배치됩니다.
+![Image](https://github.com/user-attachments/assets/c343aee2-1025-44b6-8c74-ddff7e351487)
+
+- 먼저 button을 3개씩 구역을 나누어 줍니다.
+- board-row class를 적용해서 3행 3열이 되도록 수정합니다.
+- 그리고 자리를 식별할 수 있도록 X 대신 숫자로 변경해 줍니다.
+![Image](https://github.com/user-attachments/assets/e34f9af4-4997-4734-b571-5666510af00c)
+
+
 ## 3월 27일 4주차
 
 ### 리액트 시작
 
-### 1. 개요
+#### 1. 개요
 - 이번 장을 통해서 React 개념의 80%를 학습하게 됩니다.
 - React 개발의 흐름을 이해 하면서 전체 개념을 한 번에 정리합니다.
 
@@ -18,7 +455,7 @@
 ▲ 공식 사이트의 "학습 하기 (Learn)"을 참고하세요.  
 
 
-### 2. Component의 생성 및 nesting(중첩)
+#### 2. Component의 생성 및 nesting(중첩)
 - 2장에서 살펴본 것과 같이 React 앱은 component로 만들어집니다.
 - component는 고유한 로직과 모양을 가진 UI의 일부입니다.
 - component는 버튼처럼 작을 수도 있고, 전체 페이지처럼 클 수도 있습니다.
@@ -54,7 +491,6 @@ function App() {
 
 export default App 
 ```
-
 
 * App component 위에 MyButton component를 작성합니다.
 * 실행 화면을 확인해 봅니다.
