@@ -1,5 +1,304 @@
 # 허동민 학번: 202130435
 
+## 4월 10일 6주차
+
+### props를 통해 데이터 전달하기
+- React의 component architecture를 사용해서 재사용할 수 있는 component를 만들어서 지저분하고 중복된 코드를 삭제합니다.
+- Board component를 만들고, Square component의 내용을 복사합니다.
+- Square component의 button을 하나만 남기고 모두 삭제합니다.
+- Board component의 button을 Square component로 교체합니다.
+- App에서 호출하는 component를 Square에서 Board로 바꿔줍니다.
+- 정상적으로 출력이 되는지 확인해 보세요.
+
+- 여기까지 하면 component는 깔끔하게 정리 됐지만, 숫자 출력이 1만 나오게 됩니다.
+- 이 문제를 해결하기 위해 props를 사용하여 각 사각형이 가져야 할 값을 부모
+component (Board)에서 자식 component(Square)로 전달하겠습니다.
+- component를 호출하는 쪽이 부모 component입니다.
+
+
+### props를 통해 데이터 전달하기-2
+- Square component value prop을 전달 받을 수 있도록 수정합니다.
+
+- 이렇게 수정한다고 해서 변하는 것은 없습니다. 왜냐하면 return 값은 1이 전달되기 때문입니다.
+- 문서처럼 value를 문자열로 1과 교체해도 마찬가지 입니다.
+- 문자열 "value"가 아닌 JavaScript 변수가 렌더링 되어야 합니다.
+- JSX에서 "JavaScript로 탈출" 하려면, 중괄호가 필요합니다. JSX에서 value 주위에 중 괄호를 추가합니다.
+- 하지만 Board로 부터 value prop이 전달되지 않았기 때문에
+않아 아무 것도 표시되지 않습니다.
+
+```
+import './App.css'
+
+function Board() {
+  return (
+    <div>
+      <div className="board-row">
+        <Square value="1" />
+        <Square value="2" />
+        <Square value="3" />
+      </div>
+      <div className="board-row">
+        <Square value="4" />
+        <Square value="5" />
+        <Square value="6" />
+      </div>
+      <div className="board-row">
+        <Square value="7" />
+        <Square value="8" />
+        <Square value="9" />
+      </div>
+    </div>
+  );
+}
+    
+function Square ({value}) {
+  return (
+    <button className="square">{value}</button>
+  )
+}
+
+export default function App() {
+    return (
+    <div>
+    <h1>Tic Tac Toe</h1>
+    <Board />
+    </div>
+  )
+}
+```
+
+
+### props를 통해 데이터 전달하기-3
+- 이제 Board에서 Square로 prop value를 전달해 보겠습니다.
+- 정상적으로 출력되는지 확인해 보세요.
+```
+import './App.css'
+
+function Board() {
+  return (
+    <div>
+      <div className="board-row">
+        <Square value="1" />
+        <Square value="2" />
+        <Square value="3" />
+      </div>
+      <div className="board-row">
+        <Square value="4" />
+        <Square value="5" />
+        <Square value="6" />
+      </div>
+      <div className="board-row">
+        <Square value="7" />
+        <Square value="8" />
+        <Square value="9" />
+      </div>
+    </div>
+  );
+}
+```
+
+
+### 사용자와 상호작용하는 컴포넌트 만들기
+▲ 한글 문서에서 "사각형"이라고 번역된 것은 모두 Square 컴포넌트를 의미합니다.
+- Square 컴포넌트를 클릭하면 X로 채워지게 코드를 수정해 보겠습니다.
+  1. 먼저 Square 내부에 handleClick 함수를 선언하세요.
+  2. 다음 Square 컴포넌트에서 반환되는 JSX 버튼의 props에 onClick을 추가하세요.
+
+- 이제 사각형을 클릭하면, 브라우저의 console 탭에 "clicked!" 라는 로그가 표시됩니다.
+- 사각형을 한 번 더 클릭하면 "clicked!" 라는 로그가 다시 생성됩니다.
+- 같은 메시지가 포함된 콘솔 로그를 반복해도 콘솔에 더 많은 줄이 생기지 않습니다.
+- 대신 첫 번째 "clicked!" 로그 옆의 숫자가 증가하는 것을 볼 수 있습니다.
+
+```
+import './App.css'
+
+function Square({value}) {
+  function handleClick() {
+    console.log('clicked!');
+  }
+
+  return (
+    <button
+      className="square"
+      onClick={handleClick}
+    >
+      {value}
+    </button>
+  );
+}
+
+function Board() {
+  return (
+    <div>
+      <div className="board-row">
+        <Square value="1" />
+        <Square value="2" />
+        <Square value="3" />
+      </div>
+      <div className="board-row">
+        <Square value="4" />
+        <Square value="5" />
+        <Square value="6" />
+      </div>
+      <div className="board-row">
+        <Square value="7" />
+        <Square value="8" />
+        <Square value="9" />
+      </div>
+    </div>
+  );
+}
+   
+
+export default function App() {
+  return (
+    <div>
+      <h1>Tic Tac Toe</h1>
+      <Board />
+    </div>
+  )
+}
+```
+
+### 사용자와 상호작용하는 컴포넌트 만들기-2
+- 다음으로 사각형 컴포넌트가 클릭 된 것을 "기억"하고 "X" 표시로 채워보겠습니다.
+- 컴포넌트는 무언가 "기억"하기 위해 state를 사용합니다.
+- React는 상태 기억을 위해 useState라는 Hook을 제공합니다.
+- Square의 현재 값을 state에 저장하고 Square가 클릭하면 값이 변경되도록 하겠습니다.
+
+1. 파일 상단에서 useState import합니다.
+2. Square 컴포넌트에서 value prop을 제거합니다. 대신 useState를 사용합니다.
+3. Square 컴포넌트의 시작 부분에 usestate를 호출하고, value라는 이름의 state 변수를 반환하도록 하세요.
+![Image](https://github.com/user-attachments/assets/021a6622-b344-4880-9f88-94d61b3075ca)
+
+
+### 사용자와 상호작용하는 컴포넌트 만들기-3
+- value는 값을 저장하는 변수, setValue는 값을 변경하는 데 사용하는 함수입니다.
+- useState에 전달된 null은 이 state 변수의 초기값으로 현재 value는 null이라는 의미 입니다.
+- 앞에서 Square 컴포넌트는 더 이상 props를 사용하지 않게 수정 하였습니다.
+4. 따라서 Board 컴포넌트가 생성한 9개의 Square 컴포넌트에서도 value prop를 제거합니다.
+
+![Image](https://github.com/user-attachments/assets/043950f2-d050-4ee4-bbf0-d03554269783)
+
+### 사용자와 상호작용하는 컴포넌트 만들기-4
+- 이제 Square가 클릭 되었을 때 "X"를 표시하도록 변경하겠습니다.
+5. console.log("clicked!"); 이벤트 핸들러를 setValue('x');로 변경하세요.
+![Image](https://github.com/user-attachments/assets/1c704ec0-cf67-4f09-81a1-4232aa669701)
+- onclick 핸들러에서 set 함수를 호출해서 <button>이 클릭 될 때마다 Square를 다시 렌더링하도록 했습니다.
+- 업데이트 후 Square의 value는 'X'가 되므로, 앞으로 Board에서 "X"를 볼 수 있습니다.
+- Square를 클릭하면 "X"가 표시됩니다.
+![Image](https://github.com/user-attachments/assets/417fe8ed-233c-46a8-826a-d0c8325e4c68)
+
+### 사용자와 상호작용하는 컴포넌트 만들기-5
+- 각 Square에는 고유한 state가 있습니다.
+- 각각의 Square에 저장된 value는 다른 Square과 완전히 독립적입니다.
+- 컴포넌트에서 set 함수를 호출하면 React는 그 안에 있는 자식 컴포넌트도 자동으로 업 데이트합니다.
+
+### React Developer Tools
+- React 개발자 도구를 사용하면 React 컴포넌트의 props와 state를 확인할 수 있습니다.
+- CodeSandBox의 브라우저 구역 하단에서 React 개발자 도구 탭을 찾을 수 있습니다.
+? 찾을 수가 없음. ᅲᅲ
+- React 개발자 도구는 Chrome, Firefox, 그리고 Edge 브라우저의 확장 프로그램으로 사용할 수 있습니다.
+- #chrome 웹 스토어에서 React Developer Tools을 설치 합니다.
+![Image](https://github.com/user-attachments/assets/1ef52080-fd4f-4cc7-a80d-1284385073f8)
+
+
+### React Developer Tools
+- #개발자 도구에서 component를 열면 프로젝트 관련 정보를 얻을 수 있습니다.
+- #이제 Square를 클릭했을 때 value값이, 즉 상태가 변하는지 확인해 보겠습니다.
+![Image](https://github.com/user-attachments/assets/f04028e5-4098-44f2-8870-655a69b9863a)
+
+
+
+### 게임 완료하기.
+- 이제 틱택토 게임을 위한 기본적인 구성 요소는 모두 갖추었습니다.
+- 게임을 완성하기 위해서는 Board에 "X"와 "0"를 번갈아 배치해야 하며, 승자를 결정할 방법이 필요합니다.
+
+### state 끌어올리기
+- 현재 각 Square 컴포넌트는 게임 state의 일부를 기억합니다.
+- 틱택토 게임에서 승자를 확인하려면 Board가 9개의 Square 컴포넌트 각각의 state를 기억하고 있어야 합니다.
+
+- 어떻게 접근하는 것이 좋을까요?
+- Board가 각각의 Square에 state를 "요청"해야 한다고 생각해 보겠습니다.
+- 이 접근 방식은 React에서 기술적으로는 가능하지만, 코드가 이해하기 어렵고 버그에 취약하며 리팩토링하기 어렵기 때문에 권장하지 않습니다.
+- 가장 좋은 방법은 게임의 state를 각 Square가 아닌 부모 컴포넌트인 Board에 저장하는 것입니다.
+- Board 컴포넌트는 각 Square에 숫자를 전달했을 때와 같이 prop를 전달하여 각 Square 에 표시할 내용을 정할 수 있습니다.
+
+### state 끌어올리기-2
+- 여러 자식 컴포넌트에서 데이터를 수집하거나 두 자식 컴포넌트가 서로 통신하도록 하려면, 부모 컴포넌트에서 공유 state를 선언해야 합니다.
+- 부모 컴포넌트는 props를 통해 해당 state를 자식 컴포넌트에 전달할 수 있습니다.
+- 이렇게 하면 자식 컴포넌트가 서로 동기화되고, 부모 컴포넌트와도 동기화되도록 할 수 있습니다.
+
+- React 컴포넌트를 리팩토링할 때 부모 컴포넌트로 state를 끌어올리는 것은 많이 사용 하는 방법입니다.
+- 이번 기회에 직접 사용해 보도록 하겠습니다.
+
+### state 끌어올리기-3
+1. Board 컴포넌트를 편집해서 9개 Square에 해당하는 9개의 null의 배열을 기본값으로 하는 state 변수 squares를 선언하세요.
+![Image](https://github.com/user-attachments/assets/e79ff3c9-f713-4e8d-ad8b-3dd2937357c0)
+
+- Array(9).fill(null)은 9개의 엘리먼트로 배열을 생성하고, 각 엘리먼트를 null로 설정합니다. (참고 : developer.mozilla.org)
+- 그리고 state 변수 squares와 함수 setSquares 선언합니다.
+- 배열의 각 항목은 각 Square 컴포넌트의 값에 해당합니다.
+- 보드를 채우면, squares 배열은 다음과 같은 모양이 됩니다.
+![Image](https://github.com/user-attachments/assets/146a2194-c8dc-47a1-8f94-4a6fdd2f3aeb)
+
+### component 분리하기
+- Board component가 export default로 선언된 것을 보면, component가 분리되었다는 것 을 알 수 있습니다.
+- 우리도 컴포넌트를 모두 분리해서 만들겠습니다.
+- 문서에서는 Board와 Square를 함께 두었지만 우리는 모두 분리합니다.
+
+[분리 순서]
+1. component이름과 동일한 파일을 만듭니다.
+2. 해당 파일에 코드를 복사하고 export default 키워드를 추가 합니다.
+3. 필요한 component와 useState를 추가합니다.
+4. App.js에서 해당 코드를 삭제하고, Board component import해 줍니다.
+5. App.js에서 useState의 import를 제거합니다.
+6. 정상적으로 동작하는지 확인합니다.
+
+### 다시 state 끌어올리기
+2. 이제 Board 컴포넌트는 렌더링하는 각 Square 컴포넌트에 value prop를 전달해야 합니다.
+![Image](https://github.com/user-attachments/assets/e48564ab-828d-417e-a8ee-29c400fa6531)
+
+### 다시 state 끌어올리기-2
+3. 다음으로 Board 컴포넌트에서 각 value prop를 받을 수 있도록 Square 컴포넌트를 수정합니다.
+4. 이를 위해 Square 컴포넌트에서 value의 상태 추적과 버튼의 onClick prop를 제거해야 합니다.
+![Image](https://github.com/user-attachments/assets/5df61939-1b72-42d6-9456-013a577d074a)
+
+[남은 작업은 ...]
+- 이제 각 Square는 'x', '0', 또는 빈 Square의 경우 null이 되는 value prop를 받습니다.
+- 다음으로 Square가 클릭 되었을 때 발생하는 동작을 변경하겠습니다.
+- 이제 Board 컴포넌트가 Square를 관리하므로 Square가 Board의 state를 업데이트할 방법을 만들어야 합니다.
+- 컴포넌트는 자신이 정의한 state에만 접근할 수 있으므로 Square에서 Board의 state를 변경할 수 없습니다.
+
+
+### 다시 state 끌어올리기-3
+-  대신에 Board 컴포넌트에서 Square 컴포넌트로 함수를 전달하고, Square가 클릭 될 때 Square 가 해당 함수를 호출하도록 할 수 있습니다.
+5. Square 컴포넌트가 클릭 될 때 호출할 함수부터 시작하겠습니다.onSquareClick으로 해당 함수를 호출하세요.
+![Image](https://github.com/user-attachments/assets/0d2ab38c-1556-43e4-baa1-7b290a369a9b)
+
+6. 다음으로, Square 컴포넌트의 props에 onSquareclick 함수를 추가하세요.
+![Image](https://github.com/user-attachments/assets/2ed5d608-5772-4701-9bce-acefd9381ca7)
+
+### 다시 state 끌어올리기-4
+7. 이제 onSquareclick prop을 Board 컴포넌트의 handleClick 함수와 연결하세요.
+- onSquareClick 함수를 handleClick과 연결하려면 첫 번째 Square 컴포넌트의 onSquareClick prop에 해당 함수를 전달하면 됩니다.
+![Image](https://github.com/user-attachments/assets/687201b1-a558-459e-996a-269366b46404)
+
+### 다시 state 끌어올리기-5
+8. 마지막으로 보드 컴포넌트 내부에 handleClick 함수를 정의하여, 보드의 state를 담고있는 squares 배열을 업데이트하세요.
+![Image](https://github.com/user-attachments/assets/95ace68e-8306-4d72-aa95-d2d0b7ab4d5d)
+
+
+### 다시 state 끌어올리기-6
+- handleClick 함수는 JavaScript의 slice() 배열 메서드를 사용하여 squares 배열의 사본인 nextSquares를 생성합니다. (참고 : developer.mozilla.org)
+- 그 다음 handleClick 함수는 nextSquares 배열의 첫 번째 Squares(index [0])에 X를 추가하여 업데이트합니다.
+- setSquares 함수를 호출하면 React는 컴포넌트의 state가 변경되었음을 알 수 있습니다.
+- 그러면 squares의 state를 사용하는 컴포넌트(Board)와 그 하위 컴포넌트(보드를 구성하는 Square 컴포넌트)가 다시 렌더링 됩니다.
+- ● 중요 합니다! #이 설명은 문서의 코드 중 Board가 Square를 포함하고 있음을 전재. 
+- JavaScript는 클로저를 지원하기 때문에 내부 함수가(예: handleClick) 외부 함수(예: Board)에 정의된 변수 및 함수에 접근할 수 있습니다.
+- handleClick 함수는 squares의 state를 읽고 setSquares 메서드를 호출할 수 있는데, Develop 함수는 Board 함수 내부에 정의되어 있기 때문입니다.
+
+
 ## 4월 3일 5주차
 
 ### 8. 이벤트에 응답하기
@@ -435,6 +734,12 @@ export default function App() {
 - board-row class를 적용해서 3행 3열이 되도록 수정합니다.
 - 그리고 자리를 식별할 수 있도록 X 대신 숫자로 변경해 줍니다.
 ![Image](https://github.com/user-attachments/assets/e34f9af4-4997-4734-b571-5666510af00c)
+
+
+### 보드 만들기
+- 문서에서는 component의 이름을 Square에서 Board로 변경하지만 일단 그대로 사용합니다.
+![Image](https://github.com/user-attachments/assets/1756968d-a393-41f9-8781-a121b9785c7a)
+
 
 
 ## 3월 27일 4주차
