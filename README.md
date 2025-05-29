@@ -117,6 +117,11 @@ const root = createRoot(document.getElementById('app'));
 root.render(<h1>Hello, world</h1>);
 ```
 
+### 5-3. 기존 프로젝트에 React 추가
+- ▲ 처음으로 기존 프로젝트에 모듈 자바스크립트 환경을 통합하기는 다소 어려워 보일 수 있으나,
+그만한 가치가 있는 일입니다.
+- 어려움을 겪는 부분이 있다면 커뮤니티 리소스나 Vite 채팅을 이용해 보세요.
+
 
 ## 5월 22일 12주차
 
